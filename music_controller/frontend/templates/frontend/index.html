@@ -1,0 +1,64 @@
+<<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Music Controller</title>
+        {% load static %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'frontend/css/styles.css' %}">
+    </head>
+    <body>
+        
+
+        <div id="main">
+            <div id="app">
+                <div id="music-player">
+                    <div id="music-info">
+                        <div id="music-image">
+                            <img src="{% static 'frontend/img/music.jpg' %}" alt="music">
+                        </div>
+                        <div id="music-details">
+                            <h1 id="music-title">Music Title</h1>
+                            <h2 id="music-artist">Music Artist</h2>
+                        </div>
+                    </div>
+                    <div id="music-controls">
+                        <div id="music-buttons">
+                            <button id="previous">
+                                <i class="fas fa-backward"></i>
+                            </button>
+                            <button id="play">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button id="pause">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                            <button id="next">
+                                <i class="fas fa-forward"></i>
+                            </button>
+                        </div>
+                        <div id="music-progress">
+                            <div id="music-progress-bar">
+                                <div id="music-progress-loaded"></div>
+                                <div id="music-progress-played"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        
+        <script src="{% static 'frontend/main.js' %}"></script>
+    </body>
+</html>>
