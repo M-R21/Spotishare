@@ -5,7 +5,7 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "./static/frontend"),
-    filename: "[name].js",
+    filename: "main.js",
   },
   module: {
     rules: [
@@ -14,9 +14,15 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
+          options: {
+            sourceType: "module",
+          },
         },
       },
     ],
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
   },
   optimization: {
     minimize: true,
@@ -29,4 +35,5 @@ module.exports = {
       },
     }),
   ],
+  mode: "development",
 };
