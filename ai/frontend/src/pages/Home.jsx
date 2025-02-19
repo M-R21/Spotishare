@@ -18,7 +18,7 @@ function Home() {
         {id: 8, title: "The Good, the Bad and the Ugly", release_date: 1966},
         {id: 9, title: "Fight Club", release_date: 1999},
         {id: 10, title: "Forrest Gump", release_date: 1994}
-    ]
+    ];
 
     const hrandleSearch = (e) => {
         e.preventDefault();
@@ -42,7 +42,7 @@ function Home() {
 
             <div className="movies-grid">
                 {movies.map((movie) =>(
-                     movie.title.toLowerCase().startsWith(searchQuery) &&<MovieCard movie={movie} key={movie.id} />
+                    <MovieCard movie={movie} key={movie.id} />
                      ))}
             </div>
 
