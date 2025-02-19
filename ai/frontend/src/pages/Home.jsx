@@ -1,57 +1,76 @@
 import MovieCard from "../components/MovieCard";
-import { useState } from "react";
-import '../css/Home.css';
-
+import { useState, useEffect } from "react";
+import { searchMovies, getPopularMovies } from "../services/api";
+import "../css/Home.css";
 
 function Home() {
-    const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-
-    const movies = [
-        {id: 1, title: "The Shawshank Redemption", release_date: 1994},
-        {id: 2, title: "The Godfather", release_date: 1972},
-        {id: 3, title: "The Dark Knight", release_date: 2008},
-        {id: 4, title: "12 Angry", release_date: 1957},
-        {id: 5, title: "Schindler's List", release_date: 1993},
-        {id: 6, title: "The Lord of the Rings: The Return of the King", release_date: 2003},
-        {id: 7, title: "Pulp Fiction", release_date: 1994},
-        {id: 8, title: "The Good, the Bad and the Ugly", release_date: 1966},
-        {id: 9, title: "Fight Club", release_date: 1999},
-        {id: 10, title: "Forrest Gump", release_date: 1994}
-    ];
-
-    const hrandleSearch = (e) => {
-        e.preventDefault();
-        alert(`Searching for ${searchQuery}`);
-        setSearchQuery("");
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+      try {
+        const popularMovies = await getPopularMovies();
+        setMovies(popularMovies);
+      } catch (err) {
+        console.log(err);
+        setError("Failed to load movies...");
+      } finally {
+        setLoading(false);
+      }
     };
 
+    loadPopularMovies();
+  }, []);
 
-    return (
-        <div className="home"> 
-            <form onSubmit={hrandleSearch} className="search-form">  
-                <input type="text"
-                    placeholder="Search..."
-                    className="search-input"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                <button type="submit" className="search-button">Search</button>
-            </form>
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return
+    if (loading) return
 
+    setLoading(true)
+    try {
+        const searchResults = await searchMovies(searchQuery)
+        setMovies(searchResults)
+        setError(null)
+    } catch (err) {
+        console.log(err)
+        setError("Failed to search movies...")
+    } finally {
+        setLoading(false)
+    }
+  };
 
-            <div className="movies-grid">
-                {movies.map((movie) =>(
-                    <MovieCard movie={movie} key={movie.id} />
-                     ))}
-            </div>
+  return (
+    <div className="home">
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Search for movies..."
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button type="submit" className="search-button">
+          Search
+        </button>
+      </form>
 
+        {error && <div className="error-message">{error}</div>}
 
+      {loading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <div className="movies-grid">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} key={movie.id} />
+          ))}
         </div>
-    );
-
+      )}
+    </div>
+  );
 }
 
-
-
-export default Home
+export default Home;
